@@ -1,0 +1,19 @@
+<div>
+  <!-- make a ng-template and a ngTemplateOutlet and once the
+  to do has been entered place the written down todo instead of the input field     -->
+
+<!-- https://material.angular.io/components/list/overview#selection-lists
+ maybe use list with selection? have to somehow wrap the single items with a list..    -->
+  <ng-template #inputField>
+    <mat-form-field>
+      <mat-label>Enter To Do</mat-label>
+      <input (keydown.enter)="onSaveInput()" (input)="onChange($event)" matInput placeholder="Placeholder" />
+    </mat-form-field>
+  </ng-template>
+
+  <ng-template #submittedField>
+    <p>{{content}}</p>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="submitted ? submittedField : inputField"></ng-container>
+
+</div>
