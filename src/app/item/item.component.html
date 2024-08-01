@@ -5,15 +5,29 @@
   <!-- https://material.angular.io/components/list/overview#selection-lists
  maybe use list with selection? have to somehow wrap the single items with a list..    -->
   <ng-template #inputField>
-    <mat-form-field>
-      <mat-label>Enter To Do</mat-label>
-      <input
-        (keydown.enter)="onSaveInput()"
-        (input)="onChange($event)"
-        matInput
-        placeholder="Placeholder"
-      />
-    </mat-form-field>
+    <div class="inputWrapper">
+        <div class="FormFieldWrapper">
+            <mat-form-field class="itemFormField">
+                <mat-label>Enter To Do</mat-label>
+                <input (keydown.enter)="onSaveInput()" [(ngModel)]="content" matInput />
+                @if (content) {
+                <button
+                  matSuffix
+                  mat-icon-button
+                  aria-label="Clear"
+                  (click)="content = ''"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+                }
+              </mat-form-field>
+        </div>
+      <div class="sendButton">
+        <button mat-mini-fab (click)="onSaveInput()">
+            <mat-icon>send</mat-icon>
+          </button>
+      </div>
+    </div>
   </ng-template>
 
   <ng-template #submittedField>
