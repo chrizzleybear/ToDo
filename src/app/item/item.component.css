@@ -1,0 +1,11 @@
+.contentContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .itemContainer {
+    flex-grow: 1;
+  }
+  .buttonContainer {
+    margin-left: auto;
+  }

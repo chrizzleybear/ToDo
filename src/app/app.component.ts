@@ -40,6 +40,7 @@ export class AppComponent implements OnInit {
 
     
     this.lastSavedItem = this.viewContainerRef.createComponent(ItemComponent);
+    this.lastSavedItem.instance.componentRef = this.lastSavedItem;
   }
 
   ngOnInit(): void {
