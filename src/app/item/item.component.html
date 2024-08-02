@@ -6,26 +6,30 @@
  maybe use list with selection? have to somehow wrap the single items with a list..    -->
   <ng-template #inputField>
     <div class="inputWrapper">
-        <div class="FormFieldWrapper">
-            <mat-form-field class="itemFormField">
-                <mat-label>Enter To Do</mat-label>
-                <input (keydown.enter)="onSaveInput()" [(ngModel)]="content" matInput />
-                @if (content) {
-                <button
-                  matSuffix
-                  mat-icon-button
-                  aria-label="Clear"
-                  (click)="content = ''"
-                >
-                  <mat-icon>close</mat-icon>
-                </button>
-                }
-              </mat-form-field>
-        </div>
+      <div class="FormFieldWrapper">
+        <mat-form-field class="itemFormField">
+          <mat-label>Enter To Do</mat-label>
+          <input
+            (keydown.enter)="onSaveInput()"
+            [(ngModel)]="content"
+            matInput
+          />
+          @if (content) {
+          <button
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="content = ''"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          }
+        </mat-form-field>
+      </div>
       <div class="sendButton">
         <button mat-mini-fab (click)="onSaveInput()">
-            <mat-icon>send</mat-icon>
-          </button>
+          <mat-icon>send</mat-icon>
+        </button>
       </div>
     </div>
   </ng-template>
@@ -36,18 +40,37 @@
         <div class="contentContainer">
           <div class="itemContainer">{{ content }}</div>
           <div class="buttonContainer">
-            <button
-              mat-mini-fab
-              aria-label="button for deleting this item"
-              (click)="deleteItem()"
-            >
-              <mat-icon class="mat-icon">delete</mat-icon>
-            </button>
+
+            <div class="checkButton">
+              <button
+                mat-mini-fab
+                color="check"
+                aria-label="checkCircle"
+                (click)="checkItem()"
+              >
+                <mat-icon class="checkIcon">check circle</mat-icon>
+              </button>
+            </div>
+
+            
+            <div class="deletButton">
+              <button
+              color="delete"
+                mat-mini-fab
+                aria-label="button for deleting this item"
+                (click)="deleteItem()"
+              >
+                <mat-icon class="deleteIcon">delete</mat-icon>
+              </button>
+            </div>
           </div>
         </div>
       </mat-card-content>
     </mat-card>
   </ng-template>
+
+
+
   <ng-container
     *ngTemplateOutlet="submitted ? submittedField : inputField"
   ></ng-container>

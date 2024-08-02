@@ -24,10 +24,34 @@
   align-items: center;
 }
 
-.mat-form-field-flex {
-  flex-grow: 1;
-}
-
 .FormFieldWrapper {
   width: 100%;
+}
+
+.itemContainer {
+    flex-grow: 1;
+}
+
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.deleteButton {
+    margin-right: 10px;
+}
+
+
+.checkButton {
+    margin-left: 10px;
+}
+.mat-check {
+    background-color: #35653f !important;
+    color: #fff;
+} 
+
+.mat-delete {
+    background-color: #9d164cd9;
+    color: #fff;
 }
