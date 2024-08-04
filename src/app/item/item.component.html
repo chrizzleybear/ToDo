@@ -10,7 +10,7 @@
         <mat-form-field class="itemFormField">
           <mat-label>Enter To Do</mat-label>
           <input
-            (keydown.enter)="onSaveInput()"
+            (keydown.enter)="SaveInput()"
             [(ngModel)]="content"
             matInput
           />
@@ -27,7 +27,7 @@
         </mat-form-field>
       </div>
       <div class="sendButton">
-        <button mat-mini-fab (click)="onSaveInput()">
+        <button mat-mini-fab (click)="SaveInput()">
           <mat-icon>send</mat-icon>
         </button>
       </div>
@@ -72,6 +72,6 @@
 
 
   <ng-container
-    *ngTemplateOutlet="submitted ? submittedField : inputField"
+    *ngTemplateOutlet="new ? inputField : submittedField"
   ></ng-container>
 </div>

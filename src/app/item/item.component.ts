@@ -7,6 +7,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DataService } from '../data.service';
+import { Item } from '../DTOs/item.class';
+
 @Component({
   selector: 'app-item',
   standalone: true,
@@ -24,8 +27,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   styleUrl: './item.component.css',
 })
 export class ItemComponent {
+  constructor(private dataService: DataService) {}
+
   content: string = '';
-  submitted: boolean = false;
+  new: boolean = true;
   checked: boolean = false;
 
   componentRef!: ComponentRef<ItemComponent>;
@@ -42,12 +47,17 @@ export class ItemComponent {
     /  - build a simple routing mechanism to switch between active todos and checked todos
     /  - maybe implement some statistics about how many items have been checked and when (with graphs)
     */
-   
-    console.log('checking the Item')
+
+    console.log('checking the Item');
     this.componentRef.destroy();
   }
-  onSaveInput() {
+
+
+
+  SaveInput() {
     console.log('onSaveInput() has been called');
-    this.submitted = true;
+    this.new = false;
+    let item: Item = new Item(this.content);
+    this.dataService.postItem(item).subscribe();
   }
 }

@@ -13,8 +13,9 @@ import { MatCardModule } from '@angular/material/card';
 import { ItemComponent } from './item/item.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ItemDTO } from './ItemDTO';
+import { ItemDTO } from './DTOs/ItemDTO';
 import { DataService } from './data.service';
+import { Item } from './DTOs/item.class';
 
 @Component({
   selector: 'app-root',
@@ -39,33 +40,37 @@ export class AppComponent implements OnInit {
 
   @ViewChild('template') private templateRef!: TemplateRef<any>;
 
-  lastSavedItem: ComponentRef<ItemComponent> | null = null;
+  lastListedItem: ComponentRef<ItemComponent> | null = null;
 
   addItem(): void {
-    if (this.lastSavedItem) {
-      this.lastSavedItem.instance.onSaveInput();
+    if (this.lastListedItem && this.lastListedItem.instance.new) {
+      this.lastListedItem.instance.SaveInput();
     }
-    this.lastSavedItem = this.viewContainerRef.createComponent(ItemComponent);
-    this.lastSavedItem.instance.componentRef = this.lastSavedItem;
+    this.lastListedItem = this.viewContainerRef.createComponent(ItemComponent);
+    this.lastListedItem.instance.componentRef = this.lastListedItem;
+  }
+  
+  listItem(task: string): void {
+    let compRef: ComponentRef<ItemComponent> = this.viewContainerRef.createComponent(ItemComponent);
+    compRef.instance.content = task;
+    compRef.instance.new = false;
   }
 
   ngOnInit(): void {
     console.log('initializing items from db');
     this.dataService.getItems().subscribe((data) => {
       this.items = data;
-      this.sortItemsByRank();
+      this.sortItemsById();
       for (let item of this.items) {
-        console.log(item.content);
-        this.addItem();
-        this.lastSavedItem!.instance.content = item.content
+        this.listItem(item.task);
       }
-      this.lastSavedItem?.instance.onSaveInput();
+
     });
   }
 
-  sortItemsByRank(): void {
+  sortItemsById(): void {
     this.items.sort((a, b) => {
-      return a.rank - b.rank;
+      return (a.id ?? 0) - (b.id ?? 0);
     });
   }
 }
