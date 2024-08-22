@@ -60,6 +60,12 @@ export class ItemComponent {
     this.componentRef.destroy();
   }
 
+
+  updateItem() {
+    console.log('with this you can change the item. logic not yet implemented')
+    // this has to trigger the Item to go back into the "new" status where user can input string.
+  }
+
   SaveInput() {
     console.log('onSaveInput() has been called');
     this.new = false;
