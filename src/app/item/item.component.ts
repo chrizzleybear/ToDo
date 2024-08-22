@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DataService } from '../data.service';
-import { Item } from '../DTOs/item.class';
+import { Item } from '../DTOs/Item.class';
 
 @Component({
   selector: 'app-item',

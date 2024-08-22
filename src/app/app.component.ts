@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ItemDTO } from './DTOs/ItemDTO';
 import { DataService } from './data.service';
-import { Item } from './DTOs/item.class';
+import { Item } from './DTOs/Item.class';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +38,6 @@ export class AppComponent implements OnInit {
   @ViewChild('container', { read: ViewContainerRef, static: true })
   private viewContainerRef!: ViewContainerRef;
 
-  @ViewChild('template') private templateRef!: TemplateRef<any>;
 
   lastListedItem: ComponentRef<ItemComponent> | null = null;
 
@@ -54,6 +53,7 @@ export class AppComponent implements OnInit {
     let compRef: ComponentRef<ItemComponent> = this.viewContainerRef.createComponent(ItemComponent);
     compRef.instance.content = task;
     compRef.instance.new = false;
+    compRef.instance.componentRef = compRef;
   }
 
   ngOnInit(): void {
