@@ -38,7 +38,6 @@ export class AppComponent implements OnInit {
   @ViewChild('container', { read: ViewContainerRef, static: true })
   private viewContainerRef!: ViewContainerRef;
 
-
   lastListedItem: ComponentRef<ItemComponent> | null = null;
 
   addItem(): void {
@@ -48,12 +47,15 @@ export class AppComponent implements OnInit {
     this.lastListedItem = this.viewContainerRef.createComponent(ItemComponent);
     this.lastListedItem.instance.componentRef = this.lastListedItem;
   }
-  
-  listItem(task: string): void {
-    let compRef: ComponentRef<ItemComponent> = this.viewContainerRef.createComponent(ItemComponent);
-    compRef.instance.content = task;
-    compRef.instance.new = false;
-    compRef.instance.componentRef = compRef;
+
+  listItem(item: ItemDTO): void {
+    let componentRef = this.viewContainerRef.createComponent(ItemComponent);
+    let instance: ItemComponent = componentRef.instance;
+
+    instance.itemDto = item;
+    instance.componentRef = componentRef;
+    instance.new = false;
+    // wouldnt it make sense to just store the item now as well??
   }
 
   ngOnInit(): void {
@@ -62,9 +64,8 @@ export class AppComponent implements OnInit {
       this.items = data;
       this.sortItemsById();
       for (let item of this.items) {
-        this.listItem(item.task);
+        this.listItem(item);
       }
-
     });
   }
 

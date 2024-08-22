@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DataService } from '../data.service';
 import { Item } from '../DTOs/Item.class';
+import { ItemDTO } from '../DTOs/ItemDTO';
 
 @Component({
   selector: 'app-item',
@@ -29,15 +30,22 @@ import { Item } from '../DTOs/Item.class';
 export class ItemComponent {
   constructor(private dataService: DataService) {}
 
-  content: string = '';
   new: boolean = true;
   checked: boolean = false;
+  itemDto?: ItemDTO = undefined;
 
   componentRef!: ComponentRef<ItemComponent>;
 
   deleteItem() {
-    console.log('destroying this Item');
-    this.componentRef.destroy();
+    // if its new, it has not been stored yet and does not have to be deleted in DB
+    if (this.new) {
+        console.log('deleting a freshly created Item');
+      this.componentRef.destroy();
+    } else if (this.itemDto && this.itemDto.id) {
+        console.log(`Deleting item ${this.itemDto.id} with content ${this.itemDto.task} from db`)
+      this.dataService.deleteItem(this.itemDto!.id!).subscribe();
+      this.componentRef.destroy();
+    } else throw new Error('ItemDto is undefined or does not have a valid Id');
   }
 
   checkItem() {
@@ -52,12 +60,12 @@ export class ItemComponent {
     this.componentRef.destroy();
   }
 
-
-
   SaveInput() {
     console.log('onSaveInput() has been called');
     this.new = false;
-    let item: Item = new Item(this.content);
-    this.dataService.postItem(item).subscribe();
+    let item: Item = new Item(this.itemDto!.task);
+    this.dataService.postItem(item).subscribe({
+      next: (responseItem: ItemDTO) => {},
+    });
   }
 }

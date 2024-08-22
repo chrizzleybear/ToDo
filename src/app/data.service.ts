@@ -34,10 +34,9 @@ export class DataService {
 
   deleteItem(id: number): Observable<unknown> {
     console.log('deleting Item');
-    const url = '${this.deleteItemUrl}/${id}';
+    const url = `${this.todoUrl}?id=eq.${id}`;
     return this.http
-      .delete<ItemDTO>(url)
-      .pipe(catchError(this.handleError))
+      .delete<ItemDTO>(url, {headers: this.headerOptions})
       .pipe(catchError(this.handleError));
   }
 

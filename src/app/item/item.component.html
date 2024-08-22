@@ -11,15 +11,15 @@
           <mat-label>Enter To Do</mat-label>
           <input
             (keydown.enter)="SaveInput()"
-            [(ngModel)]="content"
+            [(ngModel)]="itemDto!.task"
             matInput
           />
-          @if (content) {
+          @if (itemDto!.task) {
           <button
             matSuffix
             mat-icon-button
             aria-label="Clear"
-            (click)="content = ''"
+            (click)="itemDto!.task = ''"
           >
             <mat-icon>close</mat-icon>
           </button>
@@ -38,7 +38,7 @@
     <mat-card appearance="outlined">
       <mat-card-content>
         <div class="contentContainer">
-          <div class="itemContainer">{{ content }}</div>
+          <div class="itemContainer">{{itemDto?.task}}</div>
           <div class="buttonContainer">
 
             <div class="checkButton">
