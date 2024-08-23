@@ -48,7 +48,11 @@ export class ItemComponent {
       this.componentRef.destroy();
     } else if (this.itemDto && this.itemDto.id) {
         console.log(`Deleting item ${this.itemDto.id} with content ${this.itemDto.task} from db`)
-      this.dataService.deleteItem(this.itemDto!.id!).subscribe();
+      this.dataService.deleteItem(this.itemDto!.id!).subscribe(
+        {next: (response: ItemDTO) => {
+            console.log(response);
+        }}
+      );
       this.componentRef.destroy();
     } else throw new Error('ItemDto is undefined or does not have a valid Id');
   }
@@ -77,7 +81,10 @@ export class ItemComponent {
     
     let item: ItemDTO = new Item(this.itemDto!.task);
     this.dataService.postItem(item).subscribe({
-      next: (responseItem: ItemDTO) => {},
+      next: (responseItem: ItemDTO) => {
+        console.log(responseItem)
+        this.itemDto = responseItem;
+      },
     });
   }
 }

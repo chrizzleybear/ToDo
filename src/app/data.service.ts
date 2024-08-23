@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ItemDTO } from './DTOs/ItemDTO';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { config } from '../config';
 
@@ -17,6 +17,8 @@ export class DataService {
   headerOptions = new HttpHeaders({
     'Authorization': `bearer ${this.token}`,
     'Content-Type': 'application/json',
+    // this will make postgREST return a representation of the object that was created/deleted/updated
+    'Prefer': "return=representation"
   });
 
   getItems() {
@@ -28,16 +30,24 @@ export class DataService {
   postItem(item: ItemDTO) {
     console.log('posting Item');
     return this.http
-      .post<ItemDTO>(this.todoUrl, item, { headers: this.headerOptions })
-      .pipe(catchError(this.handleError));
+      .post<ItemDTO[]>(this.todoUrl, item, { headers: this.headerOptions })
+      .pipe(
+        map((response: ItemDTO[]) => {
+            return response[0];
+        }),
+        catchError(this.handleError));
   }
 
-  deleteItem(id: number): Observable<unknown> {
+  deleteItem(id: number): Observable<ItemDTO> {
     console.log('deleting Item');
     const url = `${this.todoUrl}?id=eq.${id}`;
     return this.http
-      .delete<ItemDTO>(url, {headers: this.headerOptions})
-      .pipe(catchError(this.handleError));
+      .delete<ItemDTO[]>(url, {headers: this.headerOptions})
+      .pipe(
+        map((response: ItemDTO[]) => {
+            return response[0];
+        }),
+        catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
