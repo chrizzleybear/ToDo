@@ -28,7 +28,12 @@ import { ItemDTO } from '../DTOs/ItemDTO';
   styleUrl: './item.component.css',
 })
 export class ItemComponent {
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService) {
+    this.itemDto = {
+        task: '',
+        done: false,
+    };
+  }
 
   new: boolean = true;
   checked: boolean = false;
@@ -69,7 +74,8 @@ export class ItemComponent {
   SaveInput() {
     console.log('onSaveInput() has been called');
     this.new = false;
-    let item: Item = new Item(this.itemDto!.task);
+    
+    let item: ItemDTO = new Item(this.itemDto!.task);
     this.dataService.postItem(item).subscribe({
       next: (responseItem: ItemDTO) => {},
     });
