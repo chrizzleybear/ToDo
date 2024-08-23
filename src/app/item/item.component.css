@@ -24,6 +24,10 @@
   margin-bottom: 21.5px;
 }
 
+.undoButton {
+  margin-left: 10px;
+  margin-bottom: 21.5px;
+}
 .mat-form-field {
   display: flex;
   align-items: center;
@@ -61,7 +65,10 @@
     color: #fff;
 }
 
-
+.mat-undo {
+    background-color: rosybrown;
+    color: #fff;
+}
 .mat-update {
     background-color:rosybrown;
     color: #fff;

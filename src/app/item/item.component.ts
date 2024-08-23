@@ -30,8 +30,8 @@ import { ItemDTO } from '../DTOs/ItemDTO';
 export class ItemComponent {
   constructor(private dataService: DataService) {
     this.itemDto = {
-        task: '',
-        done: false,
+      task: '',
+      done: false,
     };
   }
 
@@ -44,15 +44,17 @@ export class ItemComponent {
   deleteItem() {
     // if its new, it has not been stored yet and does not have to be deleted in DB
     if (this.new) {
-        console.log('deleting a freshly created Item');
+      console.log('deleting a freshly created Item');
       this.componentRef.destroy();
     } else if (this.itemDto && this.itemDto.id) {
-        console.log(`Deleting item ${this.itemDto.id} with content ${this.itemDto.task} from db`)
-      this.dataService.deleteItem(this.itemDto!.id!).subscribe(
-        {next: (response: ItemDTO) => {
-            console.log(response);
-        }}
+      console.log(
+        `Deleting item ${this.itemDto.id} with content ${this.itemDto.task} from db`
       );
+      this.dataService.deleteItem(this.itemDto!.id!).subscribe({
+        next: (response: ItemDTO) => {
+          console.log(response);
+        },
+      });
       this.componentRef.destroy();
     } else throw new Error('ItemDto is undefined or does not have a valid Id');
   }
@@ -69,20 +71,24 @@ export class ItemComponent {
     this.componentRef.destroy();
   }
 
-
   updateItem() {
-    console.log('with this you can change the item. logic not yet implemented')
+    console.log('with this you can change the item. logic not yet implemented');
     // this has to trigger the Item to go back into the "new" status where user can input string.
+  }
+
+  // if one changes his mind about typing in a new item
+  removeInputField() {
+    this.componentRef.destroy();
   }
 
   SaveInput() {
     console.log('onSaveInput() has been called');
     this.new = false;
-    
+
     let item: ItemDTO = new Item(this.itemDto!.task);
     this.dataService.postItem(item).subscribe({
       next: (responseItem: ItemDTO) => {
-        console.log(responseItem)
+        console.log(responseItem);
         this.itemDto = responseItem;
       },
     });

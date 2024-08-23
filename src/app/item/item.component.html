@@ -14,7 +14,7 @@
             [(ngModel)]="itemDto!.task"
             matInput
           />
-          @if (itemDto) {
+          @if (itemDto!.task) {
           <button
             matSuffix
             mat-icon-button
@@ -26,11 +26,22 @@
           }
         </mat-form-field>
       </div>
+      @if (itemDto!.task) {
+
+      
       <div class="sendButton">
         <button mat-mini-fab (click)="SaveInput()">
           <mat-icon>send</mat-icon>
         </button>
       </div>
+      }
+    @else {
+        <div class="undoButton">
+            <button mat-mini-fab color="undo" (click)="removeInputField()">
+              <mat-icon>undo</mat-icon>
+            </button>
+          </div> 
+    }
     </div>
   </ng-template>
 
@@ -66,7 +77,7 @@
               </button>
             </div>
             
-            <div class="deletButton">
+            <div class="deleteButton">
               <button
               color="delete"
                 mat-mini-fab

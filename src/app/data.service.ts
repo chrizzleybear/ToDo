@@ -15,10 +15,13 @@ export class DataService {
   todoUrl = 'http://localhost:3000/todos';
   private token = config.TOKEN;
   headerOptions = new HttpHeaders({
-    'Authorization': `bearer ${this.token}`,
+    Authorization: `bearer ${this.token}`,
     'Content-Type': 'application/json',
     // this will make postgREST return a representation of the object that was created/deleted/updated
-    'Prefer': "return=representation"
+    // though the return type will be a json list with the object in it - so some tweaking takes place
+    // in the .pipe
+    // see: https://docs.postgrest.org/en/v12/references/api/preferences.html#return-representation
+    Prefer: 'return=representation',
   });
 
   getItems() {
@@ -33,21 +36,35 @@ export class DataService {
       .post<ItemDTO[]>(this.todoUrl, item, { headers: this.headerOptions })
       .pipe(
         map((response: ItemDTO[]) => {
-            return response[0];
+          return response[0];
         }),
-        catchError(this.handleError));
+        catchError(this.handleError)
+      );
   }
 
   deleteItem(id: number): Observable<ItemDTO> {
     console.log('deleting Item');
     const url = `${this.todoUrl}?id=eq.${id}`;
     return this.http
-      .delete<ItemDTO[]>(url, {headers: this.headerOptions})
+      .delete<ItemDTO[]>(url, { headers: this.headerOptions })
       .pipe(
         map((response: ItemDTO[]) => {
-            return response[0];
+          return response[0];
         }),
-        catchError(this.handleError));
+        catchError(this.handleError)
+      );
+  }
+
+  updateItem(id: number): Observable<ItemDTO> {
+    const url = `${this.todoUrl}?id=eq.${id}`;
+    return this.http
+      .patch<ItemDTO[]>(url, { headers: this.headerOptions })
+      .pipe(
+        map((response: ItemDTO[]) => {
+          return response[0];
+        }),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: HttpErrorResponse) {
