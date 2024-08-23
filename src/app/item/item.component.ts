@@ -35,7 +35,7 @@ export class ItemComponent {
     };
   }
 
-  new: boolean = true;
+  inputMode: boolean = true;
   checked: boolean = false;
   itemDto?: ItemDTO = undefined;
 
@@ -43,7 +43,7 @@ export class ItemComponent {
 
   deleteItem() {
     // if its new, it has not been stored yet and does not have to be deleted in DB
-    if (this.new) {
+    if (this.inputMode) {
       console.log('deleting a freshly created Item');
       this.componentRef.destroy();
     } else if (this.itemDto && this.itemDto.id) {
@@ -71,9 +71,9 @@ export class ItemComponent {
     this.componentRef.destroy();
   }
 
-  updateItem() {
+  goInInsertMode() {
     console.log('with this you can change the item. logic not yet implemented');
-    // this has to trigger the Item to go back into the "new" status where user can input string.
+    this.inputMode = true;
   }
 
   // if one changes his mind about typing in a new item
@@ -81,9 +81,21 @@ export class ItemComponent {
     this.componentRef.destroy();
   }
 
+  // this method acts differently depending on the status of the item
+  // if item is new and was never stored to db it does not have an id and can saved as new Item with post method
+  // if item was already stored it is updated with update method which uses PATCH under the hood
   SaveInput() {
-    console.log('onSaveInput() has been called');
-    this.new = false;
+    console.log('onSaveInput() has been called:');
+    this.inputMode = false;
+
+    if (this.itemDto!.id) {
+      this.dataService.updateItem(this.itemDto!).subscribe({
+        next: (response: ItemDTO) => {
+          console.log(response);
+        },
+      });
+      return;
+    }
 
     let item: ItemDTO = new Item(this.itemDto!.task);
     this.dataService.postItem(item).subscribe({

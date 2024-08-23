@@ -55,10 +55,10 @@ export class DataService {
       );
   }
 
-  updateItem(id: number): Observable<ItemDTO> {
-    const url = `${this.todoUrl}?id=eq.${id}`;
+  updateItem(item: ItemDTO): Observable<ItemDTO> {
+    const url = `${this.todoUrl}?id=eq.${item.id}`;
     return this.http
-      .patch<ItemDTO[]>(url, { headers: this.headerOptions })
+      .patch<ItemDTO[]>(url, item, { headers: this.headerOptions })
       .pipe(
         map((response: ItemDTO[]) => {
           return response[0];

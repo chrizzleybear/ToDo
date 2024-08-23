@@ -27,76 +27,70 @@
         </mat-form-field>
       </div>
       @if (itemDto!.task) {
-
-      
       <div class="sendButton">
         <button mat-mini-fab (click)="SaveInput()">
           <mat-icon>send</mat-icon>
         </button>
       </div>
+      } 
+      <!-- undo button should only be rendered if the item was not yet posted once   -->
+      @else if (! itemDto!.id) {
+      <div class="undoButton">
+        <button mat-mini-fab color="undo" (click)="removeInputField()">
+          <mat-icon>undo</mat-icon>
+        </button>
+      </div>
       }
-    @else {
-        <div class="undoButton">
-            <button mat-mini-fab color="undo" (click)="removeInputField()">
-              <mat-icon>undo</mat-icon>
-            </button>
-          </div> 
-    }
     </div>
   </ng-template>
 
   <ng-template #submittedField>
     <div class="itemWrapper">
-    <mat-card appearance="outlined">
-      <mat-card-content>
-        <div class="contentContainer">
-          <div class="itemContainer">{{itemDto?.task}}</div>
-          <div class="buttonContainer">
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="contentContainer">
+            <div class="itemContainer">{{ itemDto?.task }}</div>
+            <div class="buttonContainer">
+              <div class="checkButton">
+                <button
+                  mat-mini-fab
+                  color="check"
+                  aria-label="checkCircle"
+                  (click)="checkItem()"
+                >
+                  <mat-icon class="checkIcon">check circle</mat-icon>
+                </button>
+              </div>
 
-            <div class="checkButton">
-              <button
-                mat-mini-fab
-                color="check"
-                aria-label="checkCircle"
-                (click)="checkItem()"
-              >
-                <mat-icon class="checkIcon">check circle</mat-icon>
-              </button>
-            </div>
+              <div class="updateButton">
+                <button
+                  mat-mini-fab
+                  color="update"
+                  aria-label="checkCircle"
+                  (click)="goInInsertMode()"
+                >
+                  <mat-icon class="updateIcon">edit</mat-icon>
+                </button>
+              </div>
 
-
-
-            <div class="updateButton">
-              <button
-                mat-mini-fab
-                color="update"
-                aria-label="checkCircle"
-                (click)="updateItem()"
-              >
-                <mat-icon class="updateIcon">edit</mat-icon>
-              </button>
-            </div>
-            
-            <div class="deleteButton">
-              <button
-              color="delete"
-                mat-mini-fab
-                aria-label="button for deleting this item"
-                (click)="deleteItem()"
-              >
-                <mat-icon class="deleteIcon">delete</mat-icon>
-              </button>
+              <div class="deleteButton">
+                <button
+                  color="delete"
+                  mat-mini-fab
+                  aria-label="button for deleting this item"
+                  (click)="deleteItem()"
+                >
+                  <mat-icon class="deleteIcon">delete</mat-icon>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </ng-template>
 
-
-
   <ng-container
-    *ngTemplateOutlet="new ? inputField : submittedField"
+    *ngTemplateOutlet="inputMode ? inputField : submittedField"
   ></ng-container>
 </div>

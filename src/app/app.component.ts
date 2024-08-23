@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
   lastListedItem: ComponentRef<ItemComponent> | null = null;
 
   addItem(): void {
-    if (this.lastListedItem && this.lastListedItem.instance.new) {
+    if (this.lastListedItem && this.lastListedItem.instance.inputMode) {
       this.lastListedItem.instance.SaveInput();
     }
     this.lastListedItem = this.viewContainerRef.createComponent(ItemComponent);
@@ -54,8 +54,7 @@ export class AppComponent implements OnInit {
 
     instance.itemDto = item;
     instance.componentRef = componentRef;
-    instance.new = false;
-    // wouldnt it make sense to just store the item now as well??
+    instance.inputMode = false;
   }
 
   ngOnInit(): void {
