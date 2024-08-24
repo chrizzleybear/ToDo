@@ -60,6 +60,15 @@ export class ItemComponent {
   }
 
   checkItem() {
+    this.itemDto!.done = true;
+    this.dataService.updateItem(this.itemDto!).subscribe(
+        {
+            next: (responseItem: ItemDTO) => {
+                console.log(responseItem);
+                this.itemDto = responseItem;
+            }
+        }
+    );
     /* for now we are just destroying the component. But what we want to do is:
     /  - introducing PostgREST
     /  - storing the content of this item in the db
