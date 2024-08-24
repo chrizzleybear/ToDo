@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, ComponentRef } from '@angular/core';
+import { Component, ComponentRef, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -10,6 +10,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DataService } from '../data.service';
 import { Item } from '../DTOs/Item.class';
 import { ItemDTO } from '../DTOs/ItemDTO';
+import { TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-item',
@@ -34,6 +35,9 @@ export class ItemComponent {
       done: false,
     };
   }
+  @ViewChild('inputField', {static: true}) inputField!: TemplateRef<any>;
+  @ViewChild('submittedItem', {static: true}) submittedItem!: TemplateRef<any>;
+  @ViewChild('completedItem', {static: true}) completedItem!: TemplateRef<any>;
 
   inputMode: boolean = true;
   checked: boolean = false;
@@ -41,14 +45,25 @@ export class ItemComponent {
 
   componentRef!: ComponentRef<ItemComponent>;
 
+  defineTemplate() : TemplateRef<any>{
+    if (this.itemDto!.done) {
+        return this.completedItem;
+    }
+    if (this.inputMode) {
+        return this.inputField;
+    }
+    return this.submittedItem;
+  }
+
+
+
   deleteItem() {
     // if its new, it has not been stored yet and does not have to be deleted in DB
     if (this.inputMode) {
       console.log('deleting a freshly created Item');
       this.componentRef.destroy();
     } else if (this.itemDto && this.itemDto.id) {
-      console.log(
-        `Deleting item ${this.itemDto.id} with content ${this.itemDto.task} from db`
+      console.log( `Deleting item ${this.itemDto.id} with content ${this.itemDto.task} from db`
       );
       this.dataService.deleteItem(this.itemDto!.id!).subscribe({
         next: (response: ItemDTO) => {
@@ -61,25 +76,27 @@ export class ItemComponent {
 
   checkItem() {
     this.itemDto!.done = true;
-    this.dataService.updateItem(this.itemDto!).subscribe(
-        {
-            next: (responseItem: ItemDTO) => {
-                console.log(responseItem);
-                this.itemDto = responseItem;
-            }
-        }
-    );
-    /* for now we are just destroying the component. But what we want to do is:
-    /  - introducing PostgREST
-    /  - storing the content of this item in the db
-    /  - build a simple routing mechanism to switch between active todos and checked todos
-    /  - maybe implement some statistics about how many items have been checked and when (with graphs)
-    */
-
+    this.dataService.updateItem(this.itemDto!).subscribe({
+      next: (responseItem: ItemDTO) => {
+        console.log(responseItem);
+        this.itemDto = responseItem;
+      },
+    });
     console.log('checking the Item');
     this.componentRef.destroy();
   }
 
+  reactivateItem() {
+    this.itemDto!.done = false;
+    this.dataService.updateItem(this.itemDto!).subscribe({
+      next: (responseItem: ItemDTO) => {
+        console.log(responseItem);
+        this.itemDto = responseItem;
+      },
+    });
+    console.log('reactivating the Item');
+    this.componentRef.destroy();
+  }
   goInInsertMode() {
     console.log('with this you can change the item. logic not yet implemented');
     this.inputMode = true;

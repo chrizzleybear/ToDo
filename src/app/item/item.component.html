@@ -32,8 +32,7 @@
           <mat-icon>send</mat-icon>
         </button>
       </div>
-      } 
-      @else if (! itemDto!.id) {
+      } @else if (! itemDto!.id) {
       <div class="undoButton">
         <button mat-mini-fab color="undo" (click)="removeInputField()">
           <mat-icon>undo</mat-icon>
@@ -43,7 +42,7 @@
     </div>
   </ng-template>
 
-  <ng-template #submittedField>
+  <ng-template #submittedItem>
     <div class="itemWrapper">
       <mat-card appearance="outlined">
         <mat-card-content>
@@ -89,7 +88,43 @@
     </div>
   </ng-template>
 
+  <ng-template #completedItem>
+    <div class="itemWrapper">
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="contentContainer">
+            <div class="itemContainer">{{ itemDto?.task }}</div>
+            <div class="buttonContainer">
+
+              <div class="reactivateButton">
+                <button
+                  mat-mini-fab
+                  color="update"
+                  aria-label="reactivateItem"
+                  (click)="reactivateItem()"
+                >
+                  <mat-icon class="reactivateIcon">undo</mat-icon>
+                </button>
+              </div>
+
+              <div class="deleteButton">
+                <button
+                  color="delete"
+                  mat-mini-fab
+                  aria-label="button for deleting this item"
+                  (click)="deleteItem()"
+                >
+                  <mat-icon class="deleteIcon">delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-template>
+
   <ng-container
-    *ngTemplateOutlet="inputMode ? inputField : submittedField"
+    *ngTemplateOutlet="defineTemplate()"
   ></ng-container>
 </div>
