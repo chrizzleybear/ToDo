@@ -44,7 +44,7 @@
 
   <ng-template #submittedItem>
     <div class="itemWrapper">
-      <mat-card appearance="outlined">
+      <mat-card appearance="outlined" class="matCardSubmittedItem">
         <mat-card-content>
           <div class="contentContainer">
             <div class="itemContainer">{{ itemDto?.task }}</div>
@@ -90,8 +90,8 @@
 
   <ng-template #completedItem>
     <div class="itemWrapper">
-      <mat-card appearance="outlined">
-        <mat-card-content>
+      <mat-card appearance="outlined" class="matCardCompletedItem">
+        <mat-card-content >
           <div class="contentContainer">
             <div class="itemContainer">{{ itemDto?.task }}</div>
             <div class="buttonContainer">

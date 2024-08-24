@@ -4,6 +4,15 @@
   justify-content: space-between;
 }
 
+.matCardCompletedItem {
+    color:dimgray;
+    border-radius: 10px; 
+}
+.matCardSubmittedItem {
+    border-radius: 10px;
+    border-width: 2px;
+    border-color:rgb(167, 86, 157); 
+}
 .inputWrapper {
   display: flex;
   align-items: center;
