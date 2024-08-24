@@ -24,11 +24,26 @@ export class DataService {
     Prefer: 'return=representation',
   });
 
-  getItems() {
+  getAllItems() {
     return this.http
       .get<ItemDTO[]>(this.todoUrl)
       .pipe(catchError(this.handleError));
   }
+
+  getActiveItems() {
+    const url = `${this.todoUrl}?done=eq.false`;
+    return this.http
+        .get<ItemDTO[]>(url)
+        .pipe(catchError(this.handleError));
+  }
+
+  getCompletedItems() {
+    const url = `${this.todoUrl}?done=eq.true`;
+    return this.http
+        .get<ItemDTO[]>(url)
+        .pipe(catchError(this.handleError));
+  }
+
 
   postItem(item: ItemDTO) {
     console.log('posting Item');

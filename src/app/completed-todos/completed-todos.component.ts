@@ -1,10 +1,10 @@
 import {
-    Component,
-    ViewChild,
-    ViewContainerRef,
-    OnInit,
-    ComponentRef,
-  } from '@angular/core';
+  Component,
+  ViewChild,
+  ViewContainerRef,
+  OnInit,
+  ComponentRef,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { ItemComponent } from '../item/item.component';
@@ -55,7 +55,7 @@ export class CompletedTodosComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('initializing items from db');
-    this.dataService.getItems().subscribe((data) => {
+    this.dataService.getCompletedItems().subscribe((data) => {
       this.items = data;
       this.sortItemsById();
       for (let item of this.items) {
@@ -70,4 +70,3 @@ export class CompletedTodosComponent implements OnInit {
     });
   }
 }
-
