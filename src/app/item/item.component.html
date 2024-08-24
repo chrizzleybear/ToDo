@@ -33,7 +33,6 @@
         </button>
       </div>
       } 
-      <!-- undo button should only be rendered if the item was not yet posted once   -->
       @else if (! itemDto!.id) {
       <div class="undoButton">
         <button mat-mini-fab color="undo" (click)="removeInputField()">

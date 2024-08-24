@@ -1,25 +1,2 @@
-<mat-card appearance="outlined">
-  <mat-card-header>
-    <mat-card-title> To do: </mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <ng-container #container>
-    </ng-container>
-    <br>
-    <div class="button-container">
-      <button mat-fab aria-label="button for adding items" (click)="addItem()">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div>
-  </mat-card-content>
-</mat-card>
-<!--problem: when iam using ng-template and ViewContainerRef it seems very complicated to trigger a method 
-inside the item component that is rendered inside the ng-template. 
-maybe there is some kind of subscription event listening and whenever iam hitting that ADD button i can save
-all previous items...  
-another possibility might be using an array inside the app.component and always just storing the last added item,
-if it is not empty. 
-possibly use observables: https://v17.angular.io/guide/observables 
-maybe in combination with async pipe: https://angular.dev/guide/pipes/unwrapping-data-observables
-or maybe use input/output signals: https://blog.angular-university.io/angular-signal-components/ 
-in combination with Subject from RxJS-->
+<h1>Landing Page</h1>
+<router-outlet></router-outlet>    
