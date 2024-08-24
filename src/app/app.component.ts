@@ -30,5 +30,5 @@ export class AppComponent {
     { path: '/active-todos', name: 'Active Todos' },
     { path: '/completed-todos', name: 'Completed Todos' },
   ];
-  activeLink = { path: '/active-todos', name: 'Active Todos' };
+  activeLink = this.links[0];
 }

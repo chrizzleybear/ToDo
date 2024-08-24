@@ -2,7 +2,7 @@
 <nav mat-tab-nav-bar [tabPanel]="tabPanel">
   @for (link of links; track link) {
 <!--why is on the first loading the active link not visibly rendered as active?  -->
-  <a mat-tab-link [routerLink]="link.path" [active]="activeLink == link" (click)="activeLink = link">
+  <a mat-tab-link [routerLink]="link.path" [active]="activeLink === link" (click)="activeLink = link">
     {{link.name}}
   </a>
   }
