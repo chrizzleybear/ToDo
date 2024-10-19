@@ -1,12 +1,23 @@
-<h1>My Todos</h1>
-<nav mat-tab-nav-bar [tabPanel]="tabPanel">
-  @for (link of links; track link) {
-<!--why is on the first loading the active link not visibly rendered as active?  -->
-  <a mat-tab-link [routerLink]="link.path" [active]="activeLink === link" (click)="activeLink = link">
-    {{link.name}}
-  </a>
-  }
-</nav>
-<mat-tab-nav-panel #tabPanel>
-  <router-outlet></router-outlet>
-</mat-tab-nav-panel>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <h1>My Todos</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      @for (link of links; track link) {
+      <!--why is on the first loading the active link not visibly rendered as active?  -->
+      <a
+        mat-tab-link
+        [routerLink]="link.path"
+        [active]="activeLink === link"
+        (click)="activeLink = link"
+      >
+        {{ link.name }}
+      </a>
+      }
+    </nav>
+    <mat-tab-nav-panel #tabPanel>
+      <router-outlet></router-outlet>
+    </mat-tab-nav-panel>
+  </mat-card-content>
+</mat-card>
