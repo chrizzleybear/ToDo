@@ -7,11 +7,13 @@ import { ActiveTodosComponent } from './active-todos/active-todos.component';
 import { CompletedTodosComponent } from './completed-todos/completed-todos.component';
 import { RouterLink } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    MatCardModule,
     MatTabsModule,
     RouterLink,
     RouterLinkActive,
